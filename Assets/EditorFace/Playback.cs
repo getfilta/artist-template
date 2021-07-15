@@ -15,6 +15,7 @@ public class Playback : MonoBehaviour
     private long prevTime;
     private int previousFrame;
 
+    public string filePath = "EditorFace/FaceRecording";
     public SkinnedMeshRenderer skinnedMeshRenderer;
     private DateTime startTime;
     private bool isPlayingBack;
@@ -47,7 +48,7 @@ public class Playback : MonoBehaviour
     }
 
     void GetRecordingData(){
-        string path = Path.Combine(Application.dataPath, "EditorFace", "FaceRecording");
+        string path = Path.Combine(Application.dataPath, filePath);
         byte[] data = File.ReadAllBytes(path);
         string faceData = Encoding.ASCII.GetString(data);
         faceRecording = JsonConvert.DeserializeObject<FaceRecording>(faceData);
