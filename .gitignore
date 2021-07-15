@@ -11,6 +11,7 @@
 /[Aa]sset[Bb]undles/
 /[Uu]ser[Ss]ettings/
 /[Nn]ative[Pp]lugins/
+/.idea/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
