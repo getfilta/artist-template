@@ -7,20 +7,29 @@ using Newtonsoft.Json;
 using UnityEngine;
 
 [ExecuteAlways]
-public class Playback : MonoBehaviour
+public class Simulator : MonoBehaviour
 {
+    public string filePath = "EditorFace/FaceRecording";
+    public SkinnedMeshRenderer faceVisualiserMesh;
+    public float visualiserOffset;
+
+    [Header("Face Trackers")]
+    public Transform faceTracker;
+    public Transform leftEyeTracker;
+    public Transform rightEyeTracker;
+    public Transform noseBridgeTracker;
+    
     private long recordingLength;
 
     private FaceRecording faceRecording;
     private long prevTime;
     private int previousFrame;
 
-    public string filePath = "EditorFace/FaceRecording";
-    public SkinnedMeshRenderer skinnedMeshRenderer;
+    
     private DateTime startTime;
     private bool isPlayingBack;
     private void Update(){
-        if (skinnedMeshRenderer == null)
+        if (faceVisualiserMesh == null)
             return;
         if (faceRecording.faceDatas == null){
             try{
@@ -39,7 +48,7 @@ public class Playback : MonoBehaviour
         }
         if (isPlayingBack){
             long time = (long)(DateTime.Now - startTime).TotalMilliseconds;
-            Play(time);
+            Playback(time);
         }
     }
 
@@ -66,7 +75,20 @@ public class Playback : MonoBehaviour
 #endif
     }
 
-    private void Play(long currentTime)
+    void PositionTrackers(FaceData faceData){
+        faceTracker.localPosition = faceData.face.localPosition;
+        faceTracker.localEulerAngles = faceData.face.localRotation;
+        leftEyeTracker.localPosition = faceData.leftEye.position;
+        leftEyeTracker.localEulerAngles = faceData.leftEye.rotation;
+        rightEyeTracker.localPosition = faceData.rightEye.position;
+        rightEyeTracker.localEulerAngles = faceData.rightEye.rotation;
+        Vector3 noseBridgePosition = leftEyeTracker.localPosition +
+                                     (rightEyeTracker.localPosition - leftEyeTracker.localPosition) / 2;
+        noseBridgeTracker.localPosition = noseBridgePosition;
+        noseBridgeTracker.localEulerAngles = faceData.face.localRotation;
+    }
+
+    private void Playback(long currentTime)
         {
             if (recordingLength <= 0) { return; }
             if (currentTime > recordingLength)
@@ -106,13 +128,15 @@ public class Playback : MonoBehaviour
                 float[] prevBlendShape = prevFaceData.blendshapeData;
                 float nextWeight = (float)(currentTime - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
                 float prevWeight = 1f - nextWeight;
-                skinnedMeshRenderer.transform.localPosition = faceData.face.localPosition;
-                skinnedMeshRenderer.transform.localEulerAngles = faceData.face.localRotation;
+                faceVisualiserMesh.transform.localPosition = faceData.face.localPosition;
+                faceVisualiserMesh.transform.localEulerAngles = faceData.face.localRotation;
+                faceVisualiserMesh.transform.position -= faceVisualiserMesh.transform.forward * visualiserOffset;
+                PositionTrackers(faceData);
                 //now to grab the blendshape values of the prev and next frame and lerp + assign them
                 for (int j = 0; j < prevBlendShape.Length - 2; j++)
                 {
                     var nowValue = (prevBlendShape[j] * prevWeight) + (nextBlendShape[j] * nextWeight);
-                    skinnedMeshRenderer.SetBlendShapeWeight(j, nowValue);
+                    faceVisualiserMesh.SetBlendShapeWeight(j, nowValue);
                 }
 
                 previousFrame = i;
