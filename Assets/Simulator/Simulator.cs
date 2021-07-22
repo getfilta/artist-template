@@ -10,7 +10,7 @@ using Unity.Collections;
 [ExecuteAlways]
 public class Simulator : MonoBehaviour
 {
-    public string filePath = "EditorFace/FaceRecording";
+    public string filePath;
     
     private long recordingLength;
     
@@ -69,8 +69,7 @@ public class Simulator : MonoBehaviour
     
     private void GetRecordingData(){
         Debug.Log("Deserializing file");
-        string path = Path.Combine(Application.dataPath, filePath);
-        byte[] data = File.ReadAllBytes(path);
+        byte[] data = File.ReadAllBytes(filePath);
         string faceData = Encoding.ASCII.GetString(data);
         faceRecording = JsonConvert.DeserializeObject<FaceRecording>(faceData);
         recordingLength = faceRecording.faceDatas[faceRecording.faceDatas.Count - 1].timestamp;
@@ -177,6 +176,7 @@ public class Simulator : MonoBehaviour
         mesh = new Mesh();
         isPlaying = true;
         startTime = DateTime.Now;
+        filePath = Path.GetFullPath("Packages/com.getfilta.artist-unityplug/Simulator/FaceRecording");
         Debug.Log("Starting playback");
     }
 
