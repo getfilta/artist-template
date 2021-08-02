@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "2678573b2fd30b1d2008addb5756554dc8e9c8d6"
+      "hash": "fca4a807c269413b7dc1323d32dbb81083bfd31f"
     },
     "com.unity.ide.vscode": {
       "version": "1.2.3",
