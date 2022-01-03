@@ -76,3 +76,4 @@ crashlytics-build.properties
 Packages/com.kyrylokuzyk.arfoundationremote
 
 /[Aa]ssets/[Ff]ilters
+/[Aa]ssets/Filters.meta
