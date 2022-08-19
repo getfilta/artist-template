@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.getfilta.artist-unityplug": "2.1.4",
+    "com.getfilta.artist-unityplug": "2.2.0",
     "com.unity.ide.vscode": "1.2.4",
     "com.unity.nuget.newtonsoft-json": "2.0.2",
     "com.unity.render-pipelines.universal": "12.1.2",
