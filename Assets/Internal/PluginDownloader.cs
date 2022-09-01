@@ -16,7 +16,7 @@ public class PluginDownloader
     private const string PluginUrl = "https://registry.npmjs.org/com.getfilta.artist-unityplug";
     private const string RegistryScope = "com.getfilta.artist-unityplug";
     
-    //[InitializeOnLoadMethod]
+    [InitializeOnLoadMethod]
     private static async void UpdatePanel() {
         ScopedRegistry filtaRegistry = new ScopedRegistry {
             name = RegistryName,
