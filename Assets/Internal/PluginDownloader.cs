@@ -28,14 +28,14 @@ public class PluginDownloader
         string manifestPath = Path.Combine(Application.dataPath, "..", "Packages/manifest.json");
         string manifestJson = File.ReadAllText(manifestPath);
         ManifestJson manifest = JsonConvert.DeserializeObject<ManifestJson>(manifestJson);
+        string version;
         if (manifest.scopedRegistries.FindIndex((registry => registry.url == RegistryUrl)) == -1) {
+            version = await GetVersion();
+            if (String.IsNullOrEmpty(version)) {
+                return;
+            }
             manifest.scopedRegistries.Add(filtaRegistry);
         } else {
-            return;
-        }
-
-        string version = await GetVersion();
-        if (String.IsNullOrEmpty(version)) {
             return;
         }
         if (!manifest.dependencies.ContainsKey(RegistryScope)) {
