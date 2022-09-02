@@ -32,6 +32,7 @@ public class PluginDownloader
         if (manifest.scopedRegistries.FindIndex((registry => registry.url == RegistryUrl)) == -1) {
             version = await GetVersion();
             if (String.IsNullOrEmpty(version)) {
+                Retry();
                 return;
             }
             manifest.scopedRegistries.Add(filtaRegistry);
@@ -45,6 +46,16 @@ public class PluginDownloader
         }
         File.WriteAllText(manifestPath, JsonConvert.SerializeObject(manifest, Formatting.Indented));
         UnityEditor.PackageManager.Client.Resolve();
+    }
+
+    private static void Retry() {
+        bool answer = EditorUtility.DisplayDialog("Failed to download plugin",
+            "We failed to download the artist plugin. Ensure you have a stable internet connection", "Retry", "Quit");
+        if (answer) {
+            UpdatePanel();
+        } else {
+            EditorApplication.Exit(0);
+        }
     }
     
     private static async Task<string> GetVersion() {
