@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.getfilta.artist-unityplug": {
+      "version": "2.4.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://registry.npmjs.org"
+    },
     "com.unity.burst": {
       "version": "1.6.0",
       "depth": 1,

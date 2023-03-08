@@ -38,7 +38,8 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+    "com.getfilta.artist-unityplug": "2.4.0"
   },
   "scopedRegistries": [
     {
@@ -46,6 +47,13 @@
       "url": "https://unityregistry-pa.googleapis.com",
       "scopes": [
         "com.google"
+      ]
+    },
+    {
+      "name": "Filta Artist Suite",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.getfilta.artist-unityplug"
       ]
     }
   ]
